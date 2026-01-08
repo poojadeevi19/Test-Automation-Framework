@@ -1,8 +1,9 @@
-name: Java Automation Workflow
+name: Test Automation Workflow
 
 on:
+  workflow_dispatch:
   schedule:
-  - cron: 00 18  * * *
+    - cron: "30 18 * * *"
   push:
     branches: [ "master" ]
   pull_request:
@@ -10,37 +11,53 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-   
     - uses: actions/checkout@v4
 
-    - name: Set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         cache: maven
-    
+
     - name: Running Test Automation Framework with Maven
-      run: mvn test -X -Dbrowser-chrome -DisLambdaTest-true -Disheadless-false
-   
+      run: mvn test -X -Dbrowser=CHROME -DisLambdaTest=false -DisHeadless=true
+
     - name: Upload Test logs
-      if: always()
-      uses: actions/upload-artifact@v6.0.0
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v4
       with:
-       name: Test logs
-       path: logs/
+        name: TestLogs
+        path: logs/
 
-    - name: Upload Test Reports
-      if: always()
-      uses: actions/upload-artifact@v6.0.0
+    - name: Upload Report + Screenshots
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v4
       with:
-       name: Test Reports
-       path: report.html
+        name: TestReport
+        path: |
+          report.html
+          screenshots/
 
-    - name: Test Execution Status
-      run : echo "Test Execution Completed"
-      
+    - name: Execution Status
+      if: ${{ always() }}
+      run: echo "Test Execution Completed"
+
+    - name: Copy Report to gh-pages Folder
+      if: ${{ always() }}
+      run: |
+        mkdir -p public/extent-reports/screenshots
+        cp -R report.html public/extent-reports/
+        cp -R screenshots/ public/extent-reports/screenshots/
+        ls -l public/extent-reports
+
+    - name: Deploy
+      if: ${{ always() }}
+      uses: JamesIves/github-pages-deploy-action@v4.7.6
+      with:
+        folder: public/extent-reports/
+        token: ${{ secrets.PAT123 }}
+        clean: true
