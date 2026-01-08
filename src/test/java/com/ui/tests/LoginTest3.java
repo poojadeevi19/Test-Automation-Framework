@@ -24,7 +24,7 @@ public class LoginTest3 extends TestBase {
 			 "sanity"}, dataProviderClass = com.ui.dataproviders.LoginDataProvider.class,dataProvider = "LoginTestDataProvider")
 	public void loginTest(User user) {
     	
-		assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAdress(),user.getPassword()).getUserName() ,"puja devi");
+		assertEquals(homePage.goToLoginPage().doLoginWith(user.getEmailAdress(),user.getPassword()).getUserName() ,"Puja devi");
 		
 		
 	}

@@ -1,19 +1,19 @@
 package com.ui.pojo;
 
 public class User {
-	private String emailAdress;
+	private String emailAddress;
 	private String password;
 	
 	public User(String emailAdress, String password) {
 		super();
-		this.emailAdress = emailAdress;
+		this.emailAddress = emailAdress;
 		this.password = password;
 	}
 	public String getEmailAdress() {
-		return emailAdress;
+		return emailAddress;
 	}
-	public void setEmailAdress(String emailAdress) {
-		this.emailAdress = emailAdress;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	public String getPassword() {
 		return password;
@@ -23,7 +23,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [emailAdress=" + emailAdress + ", password=" + password + "]";
+		return "User [emailAddress=" + emailAddress + ", password=" + password + "]";
 	}
 	
 	
