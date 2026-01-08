@@ -73,6 +73,9 @@ public abstract class BrowserUtility {
 			if(isHeadless) {
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--headless");
+				options.addArguments("--no-sandbox");            // required in CI
+				options.addArguments("--disable-dev-shm-usage"); // avoid /dev/shm crashes
+				options.addArguments("--disable-gpu");           // safe for headless
 				options.addArguments("window-size=1920,1080");
 				driver.set(new ChromeDriver(options));
 			}
