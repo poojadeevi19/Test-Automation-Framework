@@ -2,8 +2,8 @@ package com.utility;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
@@ -139,7 +139,7 @@ public abstract class BrowserUtility {
     	
     	File screenshotData = screenshot.getScreenshotAs(OutputType.FILE);
     	
-    	Date date = new Date(0);
+    	Date date = new Date();
     	SimpleDateFormat format = new SimpleDateFormat("HH-mm-ss");
     	String timeStamp = format.format(date);
     	
