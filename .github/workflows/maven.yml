@@ -51,7 +51,7 @@ jobs:
         cache: maven
 
     - name: Running Test Automation Framework with Maven
-      run: mvn test -Dsurefire.suiteXmlFiles=testng.xml -Dbrowser=${{ github.event.inputs.browser }} -DisLambdaTest=${{ github.event.inputs.isLambdaTest }} -DisHeadless=${{ github.event.inputs.isHeadless }}
+      run: mvn test -Dbrowser=${{ github.event.inputs.browser }} -DisLambdaTest=${{ github.event.inputs.isLambdaTest }} -DisHeadless=${{ github.event.inputs.isHeadless }}
 
     - name: Upload Test logs
       if: ${{ always() }}
