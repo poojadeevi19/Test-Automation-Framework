@@ -1,9 +1,9 @@
 name: Test Automation Workflow
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:   # manual trigger
   schedule:
-  - cron: 30 18 * * *
+    - cron: "30 18 * * *"
   push:
     branches: [ "master" ]
   pull_request:
@@ -11,58 +11,53 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Running Test Automatin Framework with Maven
+
+    - name: Running Test Automation Framework with Maven
       run: mvn test -X -Dbrowser=CHROME -DisLambdaTest=false -DisHeadless=true
 
-    - name: Upload Test log
-      if: always()
+    - name: Upload Test logs
+      if: ${{ always() }}
       uses: actions/upload-artifact@v4
       with:
-       name: Test logs
-       path: logs/
+        name: TestLogs
+        path: logs/
 
-    - name: Upload Screenshots as Artifacts
-      if: always()
+    - name: Upload Report + Screenshots
+      if: ${{ always() }}
       uses: actions/upload-artifact@v4
       with:
-       name: screenshots
-       path: screenshots/
-
-    - name: Upload Test Reports
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-       name: Test Reports
-       path: report.html
+        name: TestReport
+        path: |
+          report.html
+          screenshots/
 
     - name: Execution Status
-      if: always()
-      run: "Test Execution Completed"
+      if: ${{ always() }}
+      run: echo "Test Execution Completed"
 
     - name: Copy Report to gh-pages Folder
-      if: always()
-
+      if: ${{ always() }}
       run: |
-       mkdir -p public/extent-reports/screenshots
-       cp -R report.html public/extent-reports/
-       cp -R screenshots/ public/extent-reports/screenshots/
-       ls -l
+        mkdir -p public/extent-reports/screenshots
+        cp -R report.html public/extent-reports/
+        cp -R screenshots/ public/extent-reports/screenshots/
+        ls -l public/extent-reports
 
     - name: Deploy
-      if: always()
+      if: ${{ always() }}
       uses: JamesIves/github-pages-deploy-action@v4.7.6
       with:
-       folder: public/extent-reports/
-       token: ${{ secrets.PAT123 }}
-       clean: true
+        folder: public/extent-reports/
+        token: ${{ secrets.PAT123 }}
+        clean: true
