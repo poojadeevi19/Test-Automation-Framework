@@ -21,7 +21,7 @@ public static WebDriver intializeLambdaTestSession(String browser,String testNam
       capabilities.setCapability("browserVersion", "latest");
       Map<String, Object> ltOptions = new HashMap();
       ltOptions.put("user", "poojadeevi19");
-      ltOptions.put("accessKey", "LT_uyj32YncqJHv78P2Pz4aF4xLenruwcCrPlrIAkE0OaHC9vT  ");
+      ltOptions.put("accessKey", "LT_O3Dc5UQjn9On2yQGDyaMiHGDlkuMfZ4pq3g5sJ4vFoJFpf3");
       ltOptions.put("build", "Selenium 4");
       ltOptions.put("name", testName);
       ltOptions.put("platformName", "Windows 10");
