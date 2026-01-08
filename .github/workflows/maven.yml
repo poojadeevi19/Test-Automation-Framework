@@ -2,33 +2,6 @@ name: Test Automation Workflow
 
 on:
   workflow_dispatch:
-    inputs:
-      browser:
-        description: "Browser to run tests on"
-        required: true
-        default: "CHROME"
-        type: choice
-        options:
-          - CHROME
-          - FIREFOX
-          - EDGE
-      isHeadless:
-        description: "Run in headless mode?"
-        required: true
-        default: "true"
-        type: choice
-        options:
-          - "true"
-          - "false"
-      isLambdaTest:
-        description: "Run on LambdaTest?"
-        required: true
-        default: "false"
-        type: choice
-        options:
-          - "true"
-          - "false"
-
   schedule:
     - cron: "30 18 * * *"
   push:
@@ -51,7 +24,7 @@ jobs:
         cache: maven
 
     - name: Running Test Automation Framework with Maven
-      run: mvn test -Dbrowser=${{ github.event.inputs.browser }} -DisLambdaTest=${{ github.event.inputs.isLambdaTest }} -DisHeadless=${{ github.event.inputs.isHeadless }}
+      run: mvn test -X -Dbrowser=CHROME -DisLambdaTest=false -DisHeadless=true
 
     - name: Upload Test logs
       if: ${{ always() }}
